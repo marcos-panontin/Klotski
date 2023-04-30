@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background-color: black;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.board {
+  display: grid;
+  /* grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr); */
+  border-radius: 10px;
+  /* gap: 10px; */
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  background-color: #ccc;
+  /* padding: 10px; */
+}
+
+.cell {
+  cursor: pointer;
+  background-color: tomato;
+  border: 1px solid #000;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  transition: all 0.6s ease-in-out;
+    user-select: none;
+}
+
+
+.emptyCell {
+  background-color: white;
+}
+
+label {
+  color: white;
+}
+
+#timer {
+  color: white;
+}
+
+#minutes {
+  margin-right: 0;
+}

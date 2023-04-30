@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Klotski</title>
+  </head>
+  <body>
+    <main>
+      <section class="grid-container">
+        <div class="board"></div>
+      </section>
+      <label for="boardSizeSelect">Choose a boardsize:</label>
+
+      <select name="boardSizeSelect" id="boardSizeSelect">
+        <option value="4">2x2</option>
+        <option value="9">3x3</option>
+        <option value="16" selected>4x4</option>
+        <option value="25">5x5</option>
+        <option value="36">6x6</option>
+      </select>
+      <button id="new-board">Novo tabuleiro</button>
+      <h1 id="timer">
+        <span id="minutes"></span> 
+        <span id="seconds"></span>
+      </h1>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
