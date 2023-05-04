@@ -2,16 +2,19 @@
 // import { startTimer, clearTimer, setTime, pad } from './timerFunctions.js';
 
 // Setting initial variables
-let boardSize = 16;
+let boardSize = 9;
 let cellsArray = [];
 let movements = 0;
 let timerStarted = false;
 let timerInterval;
 let currentBoard = [];
+let userWantsImage = true;
+let character;
 
 // Selecting DOM elements
 const board = document.querySelector(".board");
 const boardSizeSelect = document.getElementById('boardSizeSelect');
+const characterSelect = document.getElementById('characterSelect');
 const newBoardButton = document.getElementById('new-board');
 const minutesLabel = document.getElementById("minutes");
 const secondsLabel = document.getElementById("seconds");
@@ -167,6 +170,12 @@ const checkViabilityofBoard = () => {
 
 }
 
+const getBackgroundPosition = (gridSize, itemNumber) => { 
+  const row = Math.ceil(itemNumber / gridSize);
+  const col = (itemNumber - 1) % gridSize;
+  return `-${col * 100}px -${(row - 1) * 100}px`;
+}
+
 const generateBoard = () => {
   clearTimer();
   timerStarted = false;
@@ -190,7 +199,16 @@ const generateBoard = () => {
     board.appendChild(cell);
     const randomIndex = Math.floor(Math.random() * numbers.length);
     cell.dataset.cell = numbers[randomIndex];
-    cell.textContent = numbers[randomIndex];
+    const userPreference = document.getElementById('characterSelect').value;
+
+    if (userPreference !== 'numbers') {
+      character = document.getElementById('characterSelect').value;
+      cell.style.backgroundImage = `url(${`images/${character}.png`})`;
+      // cell.classList.add(`piece${numbers[randomIndex]}`)
+      cell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), numbers[randomIndex]);
+    } else {
+      cell.innerText = numbers[randomIndex];
+    }
     numbers.splice(randomIndex, 1);
 
 // CREATING ROWS AND COLUMNS DATA
@@ -227,6 +245,10 @@ document.addEventListener('click', handleClick);
 
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = event.target.value;
+  generateBoard();
+});
+
+characterSelect.addEventListener('change', () => {
   generateBoard();
 });
 
