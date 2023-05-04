@@ -1,9 +1,13 @@
+// import { generateBoard } from './generateBoard.js';
+// import { startTimer, clearTimer, setTime, pad } from './timerFunctions.js';
+
 // Setting initial variables
 let boardSize = 16;
 let cellsArray = [];
 let movements = 0;
 let timerStarted = false;
 let timerInterval;
+let currentBoard = [];
 
 // Selecting DOM elements
 const board = document.querySelector(".board");
@@ -17,7 +21,7 @@ let totalSeconds = 0;
 
 
 const startTimer = () => {
-  console.log('entrou na startTimer');
+  timerStarted = true;
   totalSeconds = 0;
   // setInterval(setTime, 1000);
   timerInterval = setInterval(setTime, 1000);
@@ -33,7 +37,6 @@ const clearTimer = () => {
 
 
 function setTime() {
-  console.log('entrou na setTime');
   totalSeconds += 1;
   secondsLabel.innerHTML = pad(totalSeconds % 60) + 's';
   minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60)) + 'min';
@@ -87,24 +90,30 @@ const checkWin = () => {
   if (currentBoard[currentBoard.length - 1] === 0) {
     currentBoard.pop();
     if (JSON.stringify(currentBoard) === JSON.stringify(currentBoard.sort((a, b) => a - b))) {
-      Swal.fire(`Vitória em ${movements} movimentos em ${totalSeconds} segundos.`)
+      Swal.fire(`Vitória! Você usou ${movements} movimentos e ${totalSeconds} segundos.`)
+      clearTimer();
     }
   }
-  clearTimer();
 }
 
 const swapCells = (clickedCell, emptyCell) => {
   movements += 1;
   const temporaryRow = clickedCell.dataset.row;
   const temporaryColumn = clickedCell.dataset.column;
+
+    clickedCell.classList.add('sliding-cell');
+
+
 // Changing the position of the clicked cell
   clickedCell.style.gridRow = emptyCell.dataset.row;
   clickedCell.dataset.row = emptyCell.dataset.row;
+
   clickedCell.style.gridColumn = emptyCell.dataset.column;
   clickedCell.dataset.column = emptyCell.dataset.column;
 // Changing the position of the empty cell
   emptyCell.style.gridRow = temporaryRow;
   emptyCell.dataset.row = temporaryRow;
+
   emptyCell.style.gridColumn = temporaryColumn;
   emptyCell.dataset.column = temporaryColumn;
 
@@ -114,7 +123,6 @@ const handleClick = (event) => {
   
   if (event.target.classList.contains('cell')) {
     if (!timerStarted) {
-      timerStarted = true;
       startTimer()
     }
     const emptyCell = document.querySelector('.emptyCell');
@@ -151,11 +159,9 @@ const checkViabilityofBoard = () => {
   }
   // if the boardsize is odd and the number of inversions is odd, generate a new board
   if (Math.sqrt(boardSize) % 2 !== 0 && inversions % 2 !== 0) {
-    // console.log('ODD - Board is not solvable');
     generateBoard();
     // if the boardsize is even and the number of (inversions + emptyCellRow) is even, generate a new board
   } else if (Math.sqrt(boardSize) % 2 === 0 && (inversions + Math.sqrt(boardSize) - 1) % 2 === 0) {
-    // console.log('EVEN - Board is not solvable');
     generateBoard();
   }
 
@@ -163,6 +169,7 @@ const checkViabilityofBoard = () => {
 
 const generateBoard = () => {
   clearTimer();
+  timerStarted = false;
   board.innerHTML = '';
   movements = 0;
 
@@ -216,7 +223,7 @@ generateBoard();
 
 
 document.addEventListener('click', handleClick);
-// document.addEventListener('mousedown', handleClick);
+// document.addEventListener('dragstart', handleClick);
 
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = event.target.value;
@@ -224,3 +231,6 @@ boardSizeSelect.addEventListener('change', (event) => {
 });
 
 newBoardButton.addEventListener('click', generateBoard)
+
+
+// export { generateBoard, checkCurrentBoard, checkWin, checkViabilityofBoard, isCellAdjacentToEmpty, swapCells, handleClick, generateNumbers, clearTimer, startTimer, timerStarted, totalSeconds, movements, boardSize, boardSizeSelect, newBoardButton, board, cellsArray, minutesLabel, secondsLabel, timerInterval };
