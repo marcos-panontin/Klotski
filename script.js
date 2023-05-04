@@ -204,7 +204,6 @@ const generateBoard = () => {
     if (userPreference !== 'numbers') {
       character = document.getElementById('characterSelect').value;
       cell.style.backgroundImage = `url(${`images/${character}.png`})`;
-      // cell.classList.add(`piece${numbers[randomIndex]}`)
       cell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), numbers[randomIndex]);
     } else {
       cell.innerText = numbers[randomIndex];
