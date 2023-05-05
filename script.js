@@ -225,7 +225,7 @@ const generateBoard = () => {
   
   // CREATING THE EMPTY CELL
   const emptyCell = document.createElement('div');
-  emptyCell.classList.add('cell');
+  // emptyCell.classList.add('cell');
   emptyCell.classList.add('emptyCell');
   board.appendChild(emptyCell);
   emptyCell.dataset.row = Math.sqrt(boardSize);
