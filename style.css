@@ -169,6 +169,27 @@ label {
   background: none;
 }
 
+footer {
+  background-color: #198754;
+  color: white;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  padding: 0.3em;
+}
+
+a{
+  color: white;
+}
+
+a:link, a:active, a:hover {
+  color: white;
+}
+
+a:visited {
+  color: #50ffad;
+}
+
 /* @media (width < 500px) {
 .board{
   width: 80%;
