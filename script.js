@@ -97,6 +97,16 @@ const checkWin = () => {
   if (currentBoard[currentBoard.length - 1] === 0) {
     currentBoard.pop();
     if (JSON.stringify(currentBoard) === JSON.stringify(currentBoard.sort((a, b) => a - b))) {
+      const emptyCell = document.querySelector('.emptyCell');
+      console.log(emptyCell)
+      const emptyCellNumber = boardSize;
+            console.log(emptyCellNumber)
+
+      emptyCell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), emptyCellNumber);
+      const character = document.getElementById('characterSelect').value;
+      console.log(character);
+      emptyCell.style.backgroundImage = `url(${`images/${character}-${Math.sqrt(boardSize)}.png`})`;
+
       Swal.fire(`Vitória! Você usou ${movements} movimentos e ${totalSeconds} segundos.`);
       boardClickable = false;
       clearTimer();
@@ -214,7 +224,7 @@ const generateBoard = () => {
 
     if (userPreference !== 'numbers') {
       character = document.getElementById('characterSelect').value;
-      cell.style.backgroundImage = `url(${`images/${character}.png`})`;
+      cell.style.backgroundImage = `url(${`images/${character}-${Math.sqrt(boardSize)}.png`})`;
       cell.style.backgroundRepeat = 'no-repeat';
       cell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), numbers[randomIndex]);
     } else {

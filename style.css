@@ -168,3 +168,14 @@ label {
   border: none;
   background: none;
 }
+
+/* @media (width < 500px) {
+.board{
+  width: 80%;
+  border: solid 4px red;
+}
+.cell{
+  width: 60px;
+  height: 60px;
+}
+} */
