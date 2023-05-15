@@ -9,6 +9,7 @@ let timerStarted = false;
 let timerInterval;
 let currentBoard = [];
 let userWantsImage = true;
+let boardClickable = false;
 let character;
 
 // Selecting DOM elements
@@ -75,8 +76,11 @@ const checkCurrentBoard = () => {
   let col = 1;
   for (let cell of cells) {
 
-  const number = cells.find((cell) => parseInt(cell.dataset.row) === row && parseInt(cell.dataset.column) === col).dataset.cell;
-  currentBoard.push(parseInt(number) || 0);
+    let number = cells.find((cell) => parseInt(cell.dataset.row) === row && parseInt(cell.dataset.column) === col).dataset.cell;
+    if (typeof number === 'undefined') {
+      number = 0;
+    };
+  currentBoard.push(parseInt(number));
     col += 1;
     if (col > Math.sqrt(boardSize)) {
       row += 1;
@@ -93,7 +97,8 @@ const checkWin = () => {
   if (currentBoard[currentBoard.length - 1] === 0) {
     currentBoard.pop();
     if (JSON.stringify(currentBoard) === JSON.stringify(currentBoard.sort((a, b) => a - b))) {
-      Swal.fire(`Vitória! Você usou ${movements} movimentos e ${totalSeconds} segundos.`)
+      Swal.fire(`Vitória! Você usou ${movements} movimentos e ${totalSeconds} segundos.`);
+      boardClickable = false;
       clearTimer();
     }
   }
@@ -124,7 +129,13 @@ const swapCells = (clickedCell, emptyCell) => {
 
 const handleClick = (event) => {
   
+
+
   if (event.target.classList.contains('cell')) {
+      if (!boardClickable) {
+          Swal.fire(`Crie um novo tabuleiro. Para fazer isso, clique no botão 'NOVO TABULEIRO'.`);
+        return;
+  }
     if (!timerStarted) {
       startTimer()
     }
@@ -204,6 +215,7 @@ const generateBoard = () => {
     if (userPreference !== 'numbers') {
       character = document.getElementById('characterSelect').value;
       cell.style.backgroundImage = `url(${`images/${character}.png`})`;
+      cell.style.backgroundRepeat = 'no-repeat';
       cell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), numbers[randomIndex]);
     } else {
       cell.innerText = numbers[randomIndex];
@@ -225,7 +237,7 @@ const generateBoard = () => {
   
   // CREATING THE EMPTY CELL
   const emptyCell = document.createElement('div');
-  // emptyCell.classList.add('cell');
+  emptyCell.classList.add('cell');
   emptyCell.classList.add('emptyCell');
   board.appendChild(emptyCell);
   emptyCell.dataset.row = Math.sqrt(boardSize);
@@ -233,7 +245,7 @@ const generateBoard = () => {
 
   // Checking if board is solvable
   checkViabilityofBoard();
-  
+  boardClickable = true;
 }
 
 generateBoard();
