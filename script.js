@@ -3,6 +3,7 @@
 
 // Setting initial variables
 let boardSize = 9;
+let cellSize = 100;
 let cellsArray = [];
 let movements = 0;
 let timerStarted = false;
@@ -98,14 +99,11 @@ const checkWin = () => {
     currentBoard.pop();
     if (JSON.stringify(currentBoard) === JSON.stringify(currentBoard.sort((a, b) => a - b))) {
       const emptyCell = document.querySelector('.emptyCell');
-      console.log(emptyCell)
       const emptyCellNumber = boardSize;
-            console.log(emptyCellNumber)
 
       emptyCell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), emptyCellNumber);
       const character = document.getElementById('characterSelect').value;
-      console.log(character);
-      emptyCell.style.backgroundImage = `url(${`images/${character}-${Math.sqrt(boardSize)}.png`})`;
+      emptyCell.style.backgroundImage = `url(${`images/${character}-3.png`})`;
 
       Swal.fire(`Vitória! Você usou ${movements} movimentos e ${totalSeconds} segundos.`);
       boardClickable = false;
@@ -194,7 +192,7 @@ const checkViabilityofBoard = () => {
 const getBackgroundPosition = (gridSize, itemNumber) => { 
   const row = Math.ceil(itemNumber / gridSize);
   const col = (itemNumber - 1) % gridSize;
-  return `-${col * 100}px -${(row - 1) * 100}px`;
+  return `-${col * cellSize}px -${(row - 1) * cellSize}px`;
 }
 
 const generateBoard = () => {
@@ -217,6 +215,15 @@ const generateBoard = () => {
   for (let i = 0; i < boardSize - 1; i += 1) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
+    cell.style.width = `${cellSize}px`;
+    cell.style.height = `${cellSize}px`;
+if (cellSize === 100) {
+  cell.style.fontSize = '3.5em';
+} else if (cellSize === 75) {
+  cell.style.fontSize = '3em';
+} else if (cellSize === 60) {
+  cell.style.fontSize = '2.5em';
+}
     board.appendChild(cell);
     const randomIndex = Math.floor(Math.random() * numbers.length);
     cell.dataset.cell = numbers[randomIndex];
@@ -224,7 +231,9 @@ const generateBoard = () => {
 
     if (userPreference !== 'numbers') {
       character = document.getElementById('characterSelect').value;
-      cell.style.backgroundImage = `url(${`images/${character}-${Math.sqrt(boardSize)}.png`})`;
+      cell.style.backgroundImage = `url(${`images/${character}-3.png`})`;
+      // cell.style.backgroundImage = `url(${`images/${character}-${Math.sqrt(boardSize)}.png`})`;
+
       cell.style.backgroundRepeat = 'no-repeat';
       cell.style.backgroundPosition = getBackgroundPosition(Math.sqrt(boardSize), numbers[randomIndex]);
     } else {
@@ -266,6 +275,15 @@ document.addEventListener('click', handleClick);
 
 boardSizeSelect.addEventListener('change', (event) => {
   boardSize = event.target.value;
+  if (boardSize === '16') {
+    cellSize = 75
+  }
+  if (boardSize === '25') {
+    cellSize = 60
+  }
+  if (boardSize === '9') {
+    cellSize = 100
+  }
   generateBoard();
 });
 
@@ -275,5 +293,14 @@ characterSelect.addEventListener('change', () => {
 
 newBoardButton.addEventListener('click', generateBoard)
 
+
+function resetHeight(){
+    // reset the body height to that of the inner browser
+    document.body.style.height = window.innerHeight + "px";
+}
+// reset the height whenever the window's resized
+window.addEventListener("resize", resetHeight);
+// called to initially set the height.
+resetHeight();
 
 // export { generateBoard, checkCurrentBoard, checkWin, checkViabilityofBoard, isCellAdjacentToEmpty, swapCells, handleClick, generateNumbers, clearTimer, startTimer, timerStarted, totalSeconds, movements, boardSize, boardSizeSelect, newBoardButton, board, cellsArray, minutesLabel, secondsLabel, timerInterval };
