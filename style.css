@@ -152,3 +152,28 @@ a:hover {
 a:visited {
   color: #50ffad;
 }
+
+.rules-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body p {
+  margin-bottom: 0.5em;
+  margin-top: 1.5em;
+}
+
+.modal-image {
+  width: 150px;
+  height: 150px;
+  margin: 0;
+}
+
+.modal-title {
+  color: #105f3b;
+}
